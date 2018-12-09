@@ -91,12 +91,12 @@ if __name__ == '__main__':
     tar.extractall()
     tar.close()
 
-    tar_file = 'VOC2008test.tar'
-    print('Extracting {}...'.format(tar_file))
-
-    tar = tarfile.open(tar_file)
-    tar.extractall()
-    tar.close()
+    # tar_file = 'VOC2008test.tar'
+    # print('Extracting {}...'.format(tar_file))
+    #
+    # tar = tarfile.open(tar_file)
+    # tar.extractall()
+    # tar.close()
 
     with open(os.path.join(test_folder, 'test_bg_names.txt')) as f:
         test_bg_names = f.read().splitlines()

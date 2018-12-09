@@ -39,15 +39,15 @@ if __name__ == '__main__':
     final.load_weights(pretrained_path)
     print(final.summary())
 
-    out_test_path = 'merged_test/'
+    out_test_path = 'portraits/origin/'
     test_images = [f for f in os.listdir(out_test_path) if
-                   os.path.isfile(os.path.join(out_test_path, f)) and f.endswith('.png')]
-    samples = random.sample(test_images, 10)
+                   os.path.isfile(os.path.join(out_test_path, f)) and f.endswith('.jpg')]
+    samples = random.sample(test_images, 9)
 
     bg_test = 'bg_test/'
     test_bgs = [f for f in os.listdir(bg_test) if
                 os.path.isfile(os.path.join(bg_test, f)) and f.endswith('.jpg')]
-    sample_bgs = random.sample(test_bgs, 10)
+    sample_bgs = random.sample(test_bgs, 9)
 
     total_loss = 0.0
     for i in range(len(samples)):
@@ -66,8 +66,17 @@ if __name__ == '__main__':
 
         alpha = np.zeros((bg_h, bg_w), np.float32)
         alpha[0:a_h, 0:a_w] = a
-        trimap = generate_trimap(alpha)
-        different_sizes = [(320, 320), (320, 320), (320, 320), (480, 480), (640, 640)]
+        trimap = cv.imread('portraits/thick_trimap/' + filename, cv.IMREAD_GRAYSCALE)
+        for h, column in enumerate(trimap):
+            for w, pixel in enumerate(column):
+                if pixel < 200 and pixel > 100:
+                    trimap[h][w] = 128
+                elif pixel >= 200:
+                    trimap[h][w] = 255
+                else:
+                    trimap[h][w] = 0
+        # different_sizes = [(320, 320), (320, 320), (320, 320), (480, 480), (640, 640)]
+        different_sizes = [(640, 640)]
         crop_size = random.choice(different_sizes)
         x, y = random_choice(trimap, crop_size)
         print('x, y: ' + str((x, y)))

@@ -33,9 +33,9 @@ def get_alpha(name):
 
 
 def get_alpha_test(name):
-    fg_i = int(name.split("_")[0])
-    name = fg_test_files[fg_i]
-    filename = os.path.join('mask_test', name)
+    name = name + '.jpg'
+    filename = os.path.join('portraits/alpha', name)
+    print(filename)
     alpha = cv.imread(filename, 0)
     return alpha
 
